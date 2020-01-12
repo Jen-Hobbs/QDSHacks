@@ -50,7 +50,7 @@ exports.getTable = (req, res) => {
         information = meters.check();
 
 
-
+    if(meters.getEnd() == undefined){
         /*This is where we fetch the ticket information and start method chaining from the returned 
         promise object.*/
         ax.get('https://opendata.vancouver.ca/api/v2/catalog/datasets/parking-tickets-2017-2019/exports/json?rows=100&pretty=false&timezone=UTC')
@@ -156,7 +156,11 @@ exports.getTable = (req, res) => {
                 console.log(error);
             });
         testing();
-        
+    }
+    else{
+        console.log("is this undefined");
+        console.log(meters.getEnd());
+    }
 
         
         
