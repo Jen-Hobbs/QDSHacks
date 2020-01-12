@@ -2,16 +2,48 @@
 <html>
 
 <head>
-
-    
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link type="text/css" rel="stylesheet" href="./css/main.css">
+    <title>maximize tickets!</title>
 </head>
-
 <body>
     <p>Scott</p>
     {{#each street}}
     <p>{{this}}</p>
     {{/each}}
     <p>{{ticket}}</p>
+    <section id="search-wrapper">
+      <h3>search box</h3>
+      <form id="form">
+        <fieldset>
+          <input type="text" class="form-content" placeholder="city"/>
+          <input type="text" class="form-content" placeholder="area"/>
+          <input type="text" class="form-content" placeholder="street-name"/>
+          <input type="date" class="form-content" />
+          <input type="date" class="form-content" />
+          <input type="submit" id="search-button" value="search" />
+        </fieldset>
+      </form>
+    </section>
+    <section id="list-head-wrapper">
+      <ul class="list">
+        <li class="list-head">City</li>
+        <li class="list-head">Area</li>
+        <li class="list-head">Street Name</li>
+        <li class="list-head">Number of Meters</li>
+        <li class="list-head">Number of Tickets</li>
+      </ul>
+    </section>
+    <section id="list-content-wrapper">
+      <ul class="list">
+        <li class="list-content">Vancouver</li>
+        <li class="list-content">DT</li>
+        <li class="list-content">1000 Homer St.</li>
+        <li class="list-content">33</li>
+        <li class="list-content">2</li>
+      </ul>
+    </section>
 </body>
 
 </html>

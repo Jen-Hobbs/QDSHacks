@@ -1,0 +1,47 @@
+html, body{
+    width:100%;
+    height:100%;
+}
+section #search-wrapper{
+
+}
+
+h3{
+    text-align: center;
+}
+
+#form{
+    text-align: center;
+}
+
+section #list-warpper{
+    text-align: center;
+}
+
+.list{
+    text-align: center;
+    list-style: none;
+}
+
+.list-head{
+    padding-left:4em;
+    padding-right:4em;
+    padding-top:2em;  
+    padding-bottom:1em;    
+    margin-left:0em;
+    float:left;
+    font-weight: bolder;
+}
+
+#list-content-wrapper{
+    text-align: center;
+}
+
+.list-content{
+    padding-left:4em;
+    padding-right:4em;
+    padding-top:0em;
+    margin-left:2em;
+    float:left;
+    font-weight: normal;
+}
