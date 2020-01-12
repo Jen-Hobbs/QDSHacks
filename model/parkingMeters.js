@@ -2,6 +2,7 @@
 var information;
 var endDate;
 var startDate;
+var mapLocations;
 function check(){
     console.log("checking check function");
     var streetName = ['one', 'two', 'three'];
@@ -23,12 +24,18 @@ function setTime(end, start){
     startDate = start;
 }
 function getEnd(){
-    return endDate;
+    return mapLocations;
 }
 function getStart(){
     return startDate;
 }
+function setMap(mapInfo){
+    mapLocations = mapInfo;
+}
+
+
 module.exports = {
+    setMap: setMap,
     setLocations: setLocations,
     check : check,
     parkingMeters : parkingMeters,

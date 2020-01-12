@@ -16,7 +16,7 @@ function findStreet(input) {
         result_type: 'street_address',
     }, function (err, response) {
         if (!err) {
-            console.log(response.json.results[0].address_components[1].short_name);
+            //console.log(response.json.results[0].address_components[1].short_name);
         }
     });
 }
@@ -144,17 +144,22 @@ exports.getTable = (req, res) => {
                 });
 
                 function logMapElements(values) {
-                    console.log(values);
+                    //console.log(values);
                 }
                 ticketMap.forEach(logMapElements);
+                meters.setMap(ticketMap);
+                console.log(ticketMap);
+                console.log("this information is the set start and end date saved ")
+                console.log(meters.getEnd());
             })
             .catch(function (error) {
                 console.log(error);
             });
         testing();
-        console.log("this information is the set start and end date saved ")
-        console.log(meters.getEnd());
-        console.log(meters.getStart());
+        
+
+        
+        
     // }
     // else {
     //     information = meters.getLocations();
