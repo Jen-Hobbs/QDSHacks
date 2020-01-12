@@ -45,12 +45,12 @@ fieldset{
   }
 #list-head-wrapper{
   position:relative;
-  top:40%;
+  top:7%;
 }
 #list-ul{
   list-style: none;
-  margin-left:4%;
   font-size:12px;
+  margin-left:4%;
 }
 .list-li{
   width:100%;
@@ -99,10 +99,10 @@ div a{
 }
 body{
     background-color: white;
-    background-image: url("./images/overlay.png"), -moz-linear-gradient(45deg, #4682B4 15%, #4169E1 85%);
-	background-image: url("./images/overlay.png"), -webkit-linear-gradient(45deg, #4682B4 15%, #4169E1 85%);
-	background-image: url("./images/overlay.png"), -ms-linear-gradient(45deg, #4682B4 15%, #4169E1 85%);
-	background-image: url("./images/blur.bg.jpeg"), linear-gradient(45deg, #4682B4 15%, #4169E1 85%);
+    background-image: url("../images/blur.png"), -moz-linear-gradient(45deg, #4682B4 15%, #4169E1 85%);
+	background-image: url("../images/blur.png"), -webkit-linear-gradient(45deg, #4682B4 15%, #4169E1 85%);
+	background-image: url("../images/blur.png"), -ms-linear-gradient(45deg, #4682B4 15%, #4169E1 85%);
+	background-image: url("../images/blur.bg.jpeg"), linear-gradient(45deg, #4682B4 15%, #4169E1 85%);
 }
 #myDiv{
   position:absolute;
