@@ -152,6 +152,9 @@ exports.getTable = (req, res) => {
                 console.log(error);
             });
         testing();
+        console.log("this information is the set start and end date saved ")
+        console.log(meters.getEnd());
+        console.log(meters.getStart());
     // }
     // else {
     //     information = meters.getLocations();
@@ -172,7 +175,11 @@ function testing() {
 exports.setRange = (req, res) => {
     let dateStart = req.body.dateStart;
     let dateEnd = req.body.dateEnd;
-    let information = meters.getLocations(dateStart, dateEnd);
-    console.log(information[0]);
+    console.log("body start and end date is");
+    console.log(dateStart);
+    console.log(dateEnd);
+    meters.setTime(dateEnd, dateStart);
+    //let information = meters.getLocations(dateStart, dateEnd);
+    //console.log(information[0]);
     res.redirect(301, '/');
 }

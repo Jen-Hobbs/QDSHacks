@@ -8,11 +8,7 @@
     <title>maximize tickets!</title>
 </head>
 <body>
-    <form action="/information" method="POST">
-        <input type="text" value="Start" name="startDate">
-        <input type="text" value= "end" name="endDate">
-        <input type="submit" value = "submit">
-    </form>
+
     <p>Scott</p>
     {{#each street}}
     <p>{{this}}</p>
@@ -20,13 +16,13 @@
     <p>{{ticket}}</p>
     <section id="search-wrapper">
       <h3>search box</h3>
-      <form id="form">
+      <form id="form" action="/information" method="POST">
         <fieldset>
           <input type="text" class="form-content" placeholder="city"/>
           <input type="text" class="form-content" placeholder="area"/>
           <input type="text" class="form-content" placeholder="street-name"/>
-          <input type="date" class="form-content" />
-          <input type="date" class="form-content" />
+          <input type="date" class="form-content" name="dateStart"/>
+          <input type="date" class="form-content" name="dateEnd"/>
           <input type="submit" id="search-button" value="search" />
         </fieldset>
       </form>
