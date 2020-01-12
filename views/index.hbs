@@ -14,34 +14,36 @@
     {{/each}}
     <p>{{ticket}}</p>
     <section id="search-wrapper">
-      <h3>search box</h3>
+      <h2>Vancouver Tickets/Meters Analysis</h2>
       <form id="form">
         <fieldset>
-          <input type="text" class="form-content" placeholder="city"/>
-          <input type="text" class="form-content" placeholder="area"/>
-          <input type="text" class="form-content" placeholder="street-name"/>
-          <input type="date" class="form-content" />
-          <input type="date" class="form-content" />
+          <input type="text" class="form-content" placeholder="city" value="Vancouver" required="required"/>
+          <input type="text" class="form-content" placeholder="area" required="required"/>
+          <input type="text" class="form-content" placeholder="street-name" required="required"/>
+          <label>Start Date: </label><input type="date" class="form-content" required="required"/>
+          <label>End Date: </label><input type="date" class="form-content" required="required"/>
           <input type="submit" id="search-button" value="search" />
         </fieldset>
       </form>
     </section>
     <section id="list-head-wrapper">
-      <ul class="list">
-        <li class="list-head">City</li>
-        <li class="list-head">Area</li>
-        <li class="list-head">Street Name</li>
-        <li class="list-head">Number of Meters</li>
-        <li class="list-head">Number of Tickets</li>
-      </ul>
-    </section>
-    <section id="list-content-wrapper">
-      <ul class="list">
-        <li class="list-content">Vancouver</li>
-        <li class="list-content">DT</li>
-        <li class="list-content">1000 Homer St.</li>
-        <li class="list-content">33</li>
-        <li class="list-content">2</li>
+      <h4>street details</h4>
+      <ul id="list-ul">
+        <li class="list-li">
+          <div class="list-city">City</div>
+          <div class="list-area">Area</div>
+          <div class="list-street-name">Street Name(block)</div>
+          <div class="list-number-meters">Number of Meters/block</div>
+          <div class="list-number-tickets">Number of Tickets/time</div>
+        </li>
+        <li class="list-li">
+          <div class="list-city">Vancouver</div>
+          <div class="list-area">Downtown</div>
+          <div class="list-street-name">100 Homer St.</div>
+          <div class="list-number-meters">2</div>
+          <div class="list-number-tickets">1</div>
+          <div id="button"><a href="#">Analyze</a></div>
+        </li>
       </ul>
     </section>
 </body>
