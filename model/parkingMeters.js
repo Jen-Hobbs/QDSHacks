@@ -3,6 +3,7 @@ var information;
 var endDate;
 var startDate;
 var mapLocations;
+var currentData;
 function check(){
     console.log("checking check function");
     var streetName = ['one', 'two', 'three'];
@@ -33,11 +34,22 @@ function getEnd(){
     console.log(end);
     console.log('the month is: ' + end[2]);
     
+    if(mapLocations != undefined){
+        mapLocations.forEach(display);
+
+    }
     return mapLocations;
 }
 
 function setMap(mapInfo){
     mapLocations = mapInfo;
+}
+function display(values, key){
+    if(values.has('2019')){
+        console.log('keyvalue' + values + ' ' + key);
+        
+    }
+    
 }
 
 

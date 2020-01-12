@@ -148,9 +148,9 @@ exports.getTable = (req, res) => {
                 }
                 ticketMap.forEach(logMapElements);
                 meters.setMap(ticketMap);
-                console.log(ticketMap);
-                console.log("this information is the set start and end date saved ")
-                console.log(meters.getEnd());
+                // console.log(ticketMap);
+                // console.log("this information is the set start and end date saved ")
+                // console.log(meters.getEnd());
             })
             .catch(function (error) {
                 console.log(error);
@@ -158,8 +158,9 @@ exports.getTable = (req, res) => {
         testing();
     }
     else{
-        console.log("is this undefined");
         console.log(meters.getEnd());
+        // console.log("is this undefined");
+        // console.log(meters.getEnd());
     }
 
         
