@@ -6,7 +6,7 @@ const googleMaps = require('@google/maps').createClient({
     key: 'AIzaSyBwKIOT2BqfVZ4MlygirFkvuRBoQ7wbdmM'
 });
 
-
+var test = '';
 
 function findStreet(input) {
     var latlng = input.split(',', 2);
@@ -16,7 +16,8 @@ function findStreet(input) {
         result_type: 'street_address',
     }, function (err, response) {
         if (!err) {
-            console.log(response.json.results[0].address_components[1].short_name);
+            test = response.json.results[0].address_components[1].short_name;
+            
         }
     });
 }
@@ -153,8 +154,7 @@ exports.getTable = (req, res) => {
             });
         testing();
         console.log("this information is the set start and end date saved ")
-        console.log(meters.getEnd());
-        console.log(meters.getStart());
+        meters.getEnd();
     // }
     // else {
     //     information = meters.getLocations();

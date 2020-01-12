@@ -23,17 +23,22 @@ function setTime(end, start){
     startDate = start;
 }
 function getEnd(){
+    let startStr = startDate + '';
+    let endStr = endDate + '';
+
+    let start = startStr.split('-');
+    let end = endStr.split('-');
+    console.log(start);
+    console.log(end);
+    console.log('the month is: ' + end[2]);
     return endDate;
 }
-function getStart(){
-    return startDate;
-}
+
 module.exports = {
     setLocations: setLocations,
     check : check,
     parkingMeters : parkingMeters,
     getLocations : getLocations,
     setTime : setTime,
-    getEnd : getEnd,
-    getStart : getStart
+    getEnd : getEnd
 }
