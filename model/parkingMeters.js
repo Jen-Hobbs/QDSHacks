@@ -3,7 +3,6 @@ var information;
 var endDate;
 var startDate;
 var mapLocations;
-var currentData;
 let start;
 let end;
 function check(){
@@ -29,7 +28,9 @@ function setTime(end, start){
 function getEnd(){
     let startStr = startDate + '';
     let endStr = endDate + '';
-
+    var allInfo = [];
+    var countInfo = [];
+    var streetInfo = [];
     start = startStr.split('-');
     end = endStr.split('-');
     if(mapLocations != undefined){
@@ -41,10 +42,46 @@ function getEnd(){
                  if(values.yearMap.has(x.toString())){                    
                      if(x.toString() == start[0].toString() && x.toString() == end[0].toString()){
                         for(var i = parseInt(start[1]); i <= parseInt(end[1]); i++){
-                            console.log(i);
-                            if(values.yearMap.get(x.toString()).has(i)){
-                                console.log("hello");
+                            //console.log(values.yearMap.get(x.toString()).get('05'));
+                            //console.log(i);
+                            let n = i.toString;
+                            
+                            if(n < 10){
+                                n = '0' + i.toString();
                             }
+                            else{
+                                n = i.toString();
+                            }
+                            // console.log("print n");
+                            // // console.log(n);
+                            // console.log(values.yearMap.get(x.toString()));
+                            console.log(values.yearMap.get(x.toString()).get(n));
+                            if(values.yearMap.get(x.toString()).get('01') != undefined){
+                                if(values.yearMap.get(x).has(n)){
+                                streetInfo.push(key);
+                                console.log("information");
+                                console.log(key);
+                                //console.log(values.yearMap.get('2019').get('01').get('26'));
+                                let count = 0;
+                                values.yearMap.get(x).get(n).forEach(function(values){
+                                //console.log(values);
+                                count += values;
+                                });
+                                countInfo.push(count);
+                            }
+                            }
+                            // if(values.yearMap.get(x).has(n)){
+                            //     streetInfo.push(key);
+                            //     console.log("information");
+                            //     console.log(key);
+                            //     //console.log(values.yearMap.get('2019').get('01').get('26'));
+                            //     let count = 0;
+                            //     values.yearMap.get(x).get(n).forEach(function(values){
+                            //     //console.log(values);
+                            //     count += values;
+                            // });
+                            // countInfo.push(count);
+                            // }
                             
                         }
                      }
@@ -83,12 +120,22 @@ function getEnd(){
              }
     // }
         });
+        
+            
+            for(let x = 0; x < streetInfo.length; x++){
+                console.log("this is pushed");
+                // let street = streetInfo[x];
+                // allInfo.push(street);
+                var street = {street_name : streetInfo[x], amount : countInfo[x]};
+                
+                allInfo.push(street);
+            }
     }
     console.log(start);
     console.log(end);
     console.log('the month is: ' + end[2]);
     //console.log(mapLocations);
-
+    console.log(allInfo);
     
 
     // if(mapLocations != undefined){
