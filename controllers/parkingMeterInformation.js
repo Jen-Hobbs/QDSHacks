@@ -6,7 +6,7 @@ const googleMaps = require('@google/maps').createClient({
     key: 'AIzaSyBwKIOT2BqfVZ4MlygirFkvuRBoQ7wbdmM'
 });
 
-
+var test = '';
 
 function findStreet(input) {
     var latlng = input.split(',', 2);
