@@ -1,6 +1,7 @@
 let meters = require('../model/parkingMeters');
 let tickets = require('../model/parkingTickets');
 let ax = require('axios');
+let streetInfo = [];
 let xrMap = new Map();
 let counter = 0;
 const googleMaps = require('@google/maps').createClient({
@@ -50,7 +51,7 @@ var test = '';
 function alldone(ticketMap){
     console.log("all done");
     // console.log(xrMap[0].key);
-    console.log(ticketMap);
+    //console.log(ticketMap);
 
     
     
@@ -111,7 +112,7 @@ exports.getTable = (req,res) => {
     // fetchMeters();
     let information = meters.check();
     let ticket = tickets.parkingTickets();
-
+    if(meters.getEnd() == undefined){
     /*This is where we fetch the ticket information and start method chaining from the returned 
     promise object.*/
     ax.get('https://opendata.vancouver.ca/api/v2/catalog/datasets/parking-tickets-2017-2019/exports/json?rows=4000&pretty=false&timezone=UTC')
@@ -204,31 +205,82 @@ exports.getTable = (req,res) => {
                         }
                     }
                 }
+                
                 });
 
                 function logMapElements(values) {
                     //console.log(values);
                 }
                 
-            
-
+                meters.setMap(ticketMap);
+                ticketMap.forEach(display);
             // function logMapElements(values) {
             //     console.log(values);
             // }
             // fetchMeters(ticketMap);
             //ticketMap.forEach(logMapElements);
-            console.log(ticketMap);
+            //console.log(ticketMap);
+            console.log( ticketMap);
             
+            
+            function display(values, key){
+                if(values.yearMap.has('2019')){
+                    if(values.yearMap.get('2019').has('01')){
+                        
+                            streetInfo.push(key);
+                        
+                        
+                        // console.log(key);
+                        // values.yearMap.get('2019').get('01').forEach(displayCount);
+                        //console.log(values.yearMap.get('2019').get('01'));
+                    }
+                    
+                }
+                
+                // if(values.has('2019')){
+                //     console.log('keyvalue' + values + ' ' + key);
+                    
+                // }
+                
+            }
+            // function displayCount(values){
+            //     console.log(values);
+            // }
+            
+            console.log(streetInfo);
+            console.log(streetInfo[0]);
+            var allInfo = [];
+            
+            for(let x = 0; x < streetInfo.length; x++){
+                
+                // let street = streetInfo[x];
+                // allInfo.push(street);
+                var street = {street_name : streetInfo[x], amount : 0};
+                console.log(street);
+                allInfo.push(street);
+            }
+            for(let x = 0; x < streetInfo.length; x++){
+                console.log("things going through ")
+                console.log(allInfo[x].street_name);
+                console.log(allInfo[x].amount);
+            }
+            console.log(allInfo);
+            res.render('index', {
+                // street: information,
+                // ticket: ticket
+                street: allInfo,
+                ticket : 'hello ticket'
+            });
         })
         .catch(function (error) {
             console.log(error);
         });
+    }
+    else{
+        console.log('output is not undefined');
+    }
 
-
-    res.render('index', {
-        street: information,
-        ticket: ticket
-    });
+    
     // information.then(([rows, fieldData])=>{
     //     res.render('index', {street:rows});
 

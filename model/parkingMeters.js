@@ -33,22 +33,23 @@ function getEnd(){
     console.log(start);
     console.log(end);
     console.log('the month is: ' + end[2]);
-    
-    if(mapLocations != undefined){
-        mapLocations.forEach(display);
+    console.log(mapLocations);
+    // if(mapLocations != undefined){
+    //     mapLocations.forEach(display);
 
-    }
-    return mapLocations;
+    // }
+    // return mapLocations;
 }
 
 function setMap(mapInfo){
     mapLocations = mapInfo;
 }
 function display(values, key){
-    if(values.has('2019')){
-        console.log('keyvalue' + values + ' ' + key);
+    // console.log('values ' + values);
+    // if(values.has('2019')){
+    //     console.log('keyvalue' + values + ' ' + key);
         
-    }
+    // }
     
 }
 

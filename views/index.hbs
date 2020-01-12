@@ -13,9 +13,9 @@
 <body>
 
     <p>Scott</p>
-    {{#each street}}
-    <p>{{this}}</p>
-    {{/each}}
+    {{!-- {{#each street}}
+      <p>{{this}}</p>
+    {{/each}} --}}
     <p>{{ticket}}</p>
     <section id="search-wrapper">
       <h3>search box</h3>
@@ -30,6 +30,7 @@
         </fieldset>
       </form>
     </section>
+    
     <section id="list-head-wrapper">
       <ul class="list">
         <li class="list-head">City</li>
@@ -39,15 +40,19 @@
         <li class="list-head">Number of Tickets</li>
       </ul>
     </section>
+    
     <section id="list-content-wrapper">
+      {{#each street}}
       <ul class="list">
         <li class="list-content">Vancouver</li>
         <li class="list-content">DT</li>
-        <li class="list-content">1000 Homer St.</li>
+        <li class="list-content">{{this.street_name}}</li>
         <li class="list-content">33</li>
-        <li class="list-content">2</li>
+        <li class="list-content">{{this.amount}}</li>
       </ul>
+     {{/each}} 
     </section>
+    
        <div id="map"></div>
 
 
