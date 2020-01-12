@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link type="text/css" rel="stylesheet" href="./css/main.css">
     <title>maximize tickets!</title>
-
-
-
 </head>
 <body>
 
@@ -16,9 +13,9 @@
       <h2>Vancouver Tickets/Meters Analysis</h2>
       <form class="form-style-9" id="form" action="/information" method="POST">
         <fieldset>
-          <input type="text" class="form-content" placeholder="city" value="Vancouver" required="required"/>
-          <input type="text" class="form-content" placeholder="area" required="required"/>
-          <input type="text" class="form-content" placeholder="street-name" required="required"/>
+          <input type="text" class="form-content" placeholder="city" value="Vancouver" />
+          <input type="text" class="form-content" placeholder="area"/>
+          <input type="text" class="form-content" placeholder="street-name"/>
           <label>Start Date: </label><input type="date" class="form-content" required="required" name="dateStart"/>
           <label>End Date: </label><input type="date" class="form-content" required="required" name="dateEnd"/>
           <input type="submit" id="search-button" value="search" />
@@ -50,10 +47,7 @@
      
     </section>
     
-       <div id="map"></div>
-
-
-       
+       <div id="map"></div>    
 {{!-- <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwKIOT2BqfVZ4MlygirFkvuRBoQ7wbdmM&callback=initMap">
 </script> --}}
