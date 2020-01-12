@@ -2,7 +2,18 @@ let meters = require('../model/parkingMeters');
 let tickets = require('../model/parkingTickets');
 let ax = require('axios');
 
+function fetchMeters() {
+    ax.get('https://opendata.vancouver.ca/api/v2/catalog/datasets/parking-meters/exports/json?rows=-1&pretty=false&timezone=UTC')
+    .then(function (response) {
+        console.log(response);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+}
+
 exports.getTable = (req,res) => {
+    fetchMeters();
     let information = meters.check();
 
     let ticket = tickets.parkingTickets();
@@ -22,22 +33,42 @@ exports.getTable = (req,res) => {
                 let ticketDate = ticket.entrydate;
                 let splitDate = ticketDate.split("-");
                 let ticketYear = splitDate[0];
+
+
                 let ticketMonth = splitDate[1];
+
+
                 let ticketDay = splitDate[2];
-                console.log("Street Block: " + streetBlock + " Year: " + ticketYear + " Month: " + ticketMonth + " Day: " + ticketDay);
+
+
+                // console.log("Street Block: " + streetBlock + " Year: " + ticketYear + " Month: " + ticketMonth + " Day: " + ticketDay);
                 
+                var ticketObject = {
+                    ticketYear : { ticketYear,
+                        ticketMonth : { ticketMonth,
+                            ticketDay : { ticketDay,
+                                dateCount : 1
+                            }
+                        }
+                    }
+                };
+
                 if(!ticketMap.has(streetBlock)) {
-                    ticketMap.set(streetBlock, ticketDate);
+                    ticketMap.set(streetBlock, ticketObject);
                 } else {
                     // console.log(streetBlock);
                 }
 
             });
-            console.log(ticketMap);
+            function logMapElements(values) {
+                // console.log(values.ticketYear.ticketMonth.ticketDay.dateCount);
+            }
+            ticketMap.forEach(logMapElements);
         })
         .catch(function (error) {
             console.log(error);
         });
+        
 
     res.render('index', {street: information, ticket: ticket});
     // information.then(([rows, fieldData])=>{
