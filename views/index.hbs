@@ -6,26 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link type="text/css" rel="stylesheet" href="./css/main.css">
     <title>maximize tickets!</title>
+
+
+
 </head>
 <body>
-    <p>Scott</p>
-    {{#each street}}
-    <p>{{this}}</p>
-    {{/each}}
-    <p>{{ticket}}</p>
+
     <section id="search-wrapper">
       <h2>Vancouver Tickets/Meters Analysis</h2>
-      <form id="form">
+      <form class="form-style-9" id="form" action="/information" method="POST">
         <fieldset>
           <input type="text" class="form-content" placeholder="city" value="Vancouver" required="required"/>
           <input type="text" class="form-content" placeholder="area" required="required"/>
           <input type="text" class="form-content" placeholder="street-name" required="required"/>
-          <label>Start Date: </label><input type="date" class="form-content" required="required"/>
-          <label>End Date: </label><input type="date" class="form-content" required="required"/>
+          <label>Start Date: </label><input type="date" class="form-content" required="required" name="dateStart"/>
+          <label>End Date: </label><input type="date" class="form-content" required="required" name="dateEnd"/>
           <input type="submit" id="search-button" value="search" />
         </fieldset>
       </form>
     </section>
+    
     <section id="list-head-wrapper">
       <h4>street details</h4>
       <ul id="list-ul">
@@ -36,16 +36,27 @@
           <div class="list-number-meters">Number of Meters/block</div>
           <div class="list-number-tickets">Number of Tickets/time</div>
         </li>
+        {{#each street}}
         <li class="list-li">
           <div class="list-city">Vancouver</div>
           <div class="list-area">Downtown</div>
-          <div class="list-street-name">100 Homer St.</div>
+          <div class="list-street-name">{{this.street_name}}</div>
           <div class="list-number-meters">2</div>
-          <div class="list-number-tickets">1</div>
+          <div class="list-number-tickets">{{this.amount}}</div>
           <div id="button"><a href="#">Analyze</a></div>
         </li>
+        {{/each}} 
       </ul>
+     
     </section>
+    
+       <div id="map"></div>
+
+
+       
+{{!-- <script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwKIOT2BqfVZ4MlygirFkvuRBoQ7wbdmM&callback=initMap">
+</script> --}}
 </body>
 
 </html>
