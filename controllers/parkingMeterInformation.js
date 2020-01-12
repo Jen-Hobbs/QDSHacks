@@ -280,6 +280,9 @@ exports.getTable = (req,res) => {
     }
     else{
         console.log('output is not undefined');
+        res.render('index',{
+            street: information
+        })
     }
 
     
