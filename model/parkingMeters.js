@@ -33,7 +33,7 @@ function getEnd(){
     console.log(start);
     console.log(end);
     console.log('the month is: ' + end[2]);
-    console.log(mapLocations);
+    //console.log(mapLocations);
     // if(mapLocations != undefined){
     //     mapLocations.forEach(display);
 

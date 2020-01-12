@@ -2,6 +2,7 @@ let meters = require('../model/parkingMeters');
 let tickets = require('../model/parkingTickets');
 let ax = require('axios');
 let streetInfo = [];
+let countInfo = [];
 let xrMap = new Map();
 let counter = 0;
 const googleMaps = require('@google/maps').createClient({
@@ -220,7 +221,6 @@ exports.getTable = (req,res) => {
             // fetchMeters(ticketMap);
             //ticketMap.forEach(logMapElements);
             //console.log(ticketMap);
-            console.log( ticketMap);
             
             
             function display(values, key){
@@ -228,7 +228,16 @@ exports.getTable = (req,res) => {
                     if(values.yearMap.get('2019').has('01')){
                         
                             streetInfo.push(key);
-                        
+                            //console.log("information ");
+                            // console.log(values.yearMap.get('2019').get('01').get('26'));
+                            let count = 0;
+                            values.yearMap.get('2019').get('01').forEach(function(values){
+                                //console.log(values);
+                                count += values;
+                            });
+                            countInfo.push(count);
+                            //console.log("total count is " + count);
+                            //values.yearMap.get('2019').get('01').get('26');
                         
                         // console.log(key);
                         // values.yearMap.get('2019').get('01').forEach(displayCount);
@@ -243,33 +252,26 @@ exports.getTable = (req,res) => {
                 // }
                 
             }
-            // function displayCount(values){
-            //     console.log(values);
-            // }
+            function displayCount(values){
+                console.log(values);
+                return "values";
+            }
             
-            console.log(streetInfo);
-            console.log(streetInfo[0]);
+            
             var allInfo = [];
             
             for(let x = 0; x < streetInfo.length; x++){
                 
                 // let street = streetInfo[x];
                 // allInfo.push(street);
-                var street = {street_name : streetInfo[x], amount : 0};
-                console.log(street);
+                var street = {street_name : streetInfo[x], amount : countInfo[x]};
+                
                 allInfo.push(street);
             }
-            for(let x = 0; x < streetInfo.length; x++){
-                console.log("things going through ")
-                console.log(allInfo[x].street_name);
-                console.log(allInfo[x].amount);
-            }
-            console.log(allInfo);
             res.render('index', {
                 // street: information,
                 // ticket: ticket
-                street: allInfo,
-                ticket : 'hello ticket'
+                street: allInfo
             });
         })
         .catch(function (error) {
