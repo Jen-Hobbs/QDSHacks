@@ -2,18 +2,52 @@ let meters = require('../model/parkingMeters');
 let tickets = require('../model/parkingTickets');
 let ax = require('axios');
 
+const googleMaps = require('@google/maps').createClient({
+    key: 'AIzaSyBwKIOT2BqfVZ4MlygirFkvuRBoQ7wbdmM'
+  });
+
+
+
+  function findStreet(input) {
+      var latlng = input.split(',', 2);
+      var newlat = latlng[1] + ',' + latlng[0];
+    googleMaps.reverseGeocode({
+      latlng: newlat,
+      result_type: 'street_address',
+    }, function(err, response) {
+      if (!err) {
+          console.log(response.json.results[0].address_components[1].short_name);
+      }
+    });
+  }
+
+
+
+///////////////////////////
 function fetchMeters() {
+    
+
     ax.get('https://opendata.vancouver.ca/api/v2/catalog/datasets/parking-meters/exports/json?rows=-1&pretty=false&timezone=UTC')
     .then(function (response) {
-        console.log(response);
+        response.data.forEach(function(location){
+            var coordinates = location.geom.geometry.coordinates;
+
+            findStreet(coordinates.toString());            
+        });
     })
     .catch(function (error) {
         console.log(error);
     });
 }
 
+
+fetchMeters();
+
+
+
+
 exports.getTable = (req,res) => {
-    fetchMeters();
+    //fetchMeters();
     let information = meters.check();
 
     let ticket = tickets.parkingTickets();
