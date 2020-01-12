@@ -12,7 +12,8 @@ function setLocations(locations){
     information = locations;
     console.log(information[0]);
 }
-function getLocations(dateStart, dateEnd){
+function getLocations(){
+    console.log("information contained is ");
     console.log(information);
     let info = [];
     let count = 0;
