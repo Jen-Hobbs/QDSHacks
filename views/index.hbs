@@ -8,6 +8,11 @@
     <title>maximize tickets!</title>
 </head>
 <body>
+    <form action="/information" method="POST">
+        <input type="text" value="Start" name="startDate">
+        <input type="text" value= "end" name="endDate">
+        <input type="submit" value = "submit">
+    </form>
     <p>Scott</p>
     {{#each street}}
     <p>{{this}}</p>
