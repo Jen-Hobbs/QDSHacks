@@ -1,14 +1,15 @@
 let meters = require('../model/parkingMeters');
 let tickets = require('../model/parkingTickets');
 let ax = require('axios');
-
+let xrMap = new Map();
+let counter = 0;
 const googleMaps = require('@google/maps').createClient({
     key: 'AIzaSyBwKIOT2BqfVZ4MlygirFkvuRBoQ7wbdmM'
   });
 
 
 
-  function findStreet(input) {
+  function findStreet(input, callback) {
       var latlng = input.split(',', 2);
       var newlat = latlng[1] + ',' + latlng[0];
     googleMaps.reverseGeocode({
@@ -16,39 +17,94 @@ const googleMaps = require('@google/maps').createClient({
       result_type: 'street_address',
     }, function(err, response) {
       if (!err) {
-          console.log(response.json.results[0].address_components[1].short_name);
+        var streetName = response.json.results[0].address_components[1].short_name;
+        var streetNum = streetNum = response.json.results[0].address_components[0].short_name;
+        streetNum = streetNum.replace(/\D/g,'');
+        if(streetNum.includes("-")) {
+            let splitNum = streetNum.split("-");
+            streetNum = splitNum[0];
+        }
+        var roundedStreetNum = Math.floor(streetNum / 100) * 100;
+        // console.log(streetName + "/" + roundedStreetNum);
+        var meterStreetBlock = streetName + "/" + roundedStreetNum;
+        console.log(streetName);
+        
+        callback(meterStreetBlock);
+        // var xrMap = new Map();
+        //  console.log(xrMap);
+        // if(!xrMap.has(meterStreetBlock)) {
+        //     xrMap.set(meterStreetBlock, 1);
+        // } else {
+        //     let numMeters = xrMap.get(meterStreetBlock);
+        //     numMeters++;
+        //     xrMap.set(meterStreetBlock, numMeters);
+        //     // console.log("I am running", xrMap.get(meterStreetBlock) + 1);
+        // }
       }
     });
+    // console.log(xrMap);
   }
 
 
+function alldone(ticketMap){
+    console.log("all done");
+    console.log(xrMap);
 
+    console.log(ticketMap);
+
+}
 ///////////////////////////
-function fetchMeters() {
+function fetchMeters(ticketMap) {
     
 
-    ax.get('https://opendata.vancouver.ca/api/v2/catalog/datasets/parking-meters/exports/json?rows=-1&pretty=false&timezone=UTC')
+    ax.get('https://opendata.vancouver.ca/api/v2/catalog/datasets/parking-meters/exports/json?rows=100&pretty=false&timezone=UTC')
     .then(function (response) {
+        // xrMap.set('test', 2);
         response.data.forEach(function(location){
             var coordinates = location.geom.geometry.coordinates;
-
-            findStreet(coordinates.toString());            
+            // xrMap.set('test', 2);
+            var testResult;
+            findStreet(coordinates.toString(),function(result){
+                counter++;
+                console.log(counter);
+                console.log("S*"+result);
+                 //console.log(xrMap);
+                if(!xrMap.has(result)) {
+                    xrMap.set(result, 1);
+                } else {
+                    let numMeters = xrMap.get(result);
+                    numMeters++;
+                    xrMap.set(result, numMeters);
+                    // console.log("I am running", xrMap.get(meterStreetBlock) + 1);
+                }       
+                if(counter == 100){
+                    alldone(ticketMap);
+                }
+            });         
         });
+        
+        console.log(xrMap);
     })
     .catch(function (error) {
         console.log(error);
     });
+    // function logMapElements(values) {
+    //     console.log(values);
+    // }
+    // ticketMap.forEach(logMapElements);
+    
+    console.log("please help");
 }
 
 
 exports.getTable = (req,res) => {
-    fetchMeters();
+    // fetchMeters();
     let information = meters.check();
     let ticket = tickets.parkingTickets();
 
     /*This is where we fetch the ticket information and start method chaining from the returned 
     promise object.*/
-    ax.get('https://opendata.vancouver.ca/api/v2/catalog/datasets/parking-tickets-2017-2019/exports/json?rows=-1&pretty=false&timezone=UTC')
+    ax.get('https://opendata.vancouver.ca/api/v2/catalog/datasets/parking-tickets-2017-2019/exports/json?rows=2000&pretty=false&timezone=UTC')
         .then(function (response) {
             //This is the "big" map that contains Street/Block : Year
             //Ex: HOWE ST/800 =>    2017 =>     03 =>       31 =>       2
@@ -136,12 +192,15 @@ exports.getTable = (req,res) => {
                         }
                     }
                 }
+                
             });
 
-            function logMapElements(values) {
-                console.log(values);
-            }
-            ticketMap.forEach(logMapElements);
+            // function logMapElements(values) {
+            //     console.log(values);
+            // }
+            fetchMeters(ticketMap);
+            //ticketMap.forEach(logMapElements);
+            
         })
         .catch(function (error) {
             console.log(error);
