@@ -27,7 +27,7 @@ const googleMaps = require('@google/maps').createClient({
         var roundedStreetNum = Math.floor(streetNum / 100) * 100;
         // console.log(streetName + "/" + roundedStreetNum);
         var meterStreetBlock = streetName + "/" + roundedStreetNum;
-        console.log(streetName);
+        // console.log(streetName);
         
         callback(meterStreetBlock);
         // var xrMap = new Map();
@@ -48,53 +48,62 @@ const googleMaps = require('@google/maps').createClient({
 
 function alldone(ticketMap){
     console.log("all done");
-    console.log(xrMap);
-
+    // console.log(xrMap[0].key);
     console.log(ticketMap);
 
+    
+    
 }
 ///////////////////////////
-function fetchMeters(ticketMap) {
+// function fetchMeters(ticketMap) {
     
 
-    ax.get('https://opendata.vancouver.ca/api/v2/catalog/datasets/parking-meters/exports/json?rows=100&pretty=false&timezone=UTC')
-    .then(function (response) {
-        // xrMap.set('test', 2);
-        response.data.forEach(function(location){
-            var coordinates = location.geom.geometry.coordinates;
-            // xrMap.set('test', 2);
-            var testResult;
-            findStreet(coordinates.toString(),function(result){
-                counter++;
-                console.log(counter);
-                console.log("S*"+result);
-                 //console.log(xrMap);
-                if(!xrMap.has(result)) {
-                    xrMap.set(result, 1);
-                } else {
-                    let numMeters = xrMap.get(result);
-                    numMeters++;
-                    xrMap.set(result, numMeters);
-                    // console.log("I am running", xrMap.get(meterStreetBlock) + 1);
-                }       
-                if(counter == 100){
-                    alldone(ticketMap);
-                }
-            });         
-        });
+//     ax.get('https://opendata.vancouver.ca/api/v2/catalog/datasets/parking-meters/exports/json?rows=4000&pretty=false&timezone=UTC')
+//     .then(function (response) {
+//         // xrMap.set('test', 2);
+//         response.data.forEach(function(location){
+//             var coordinates = location.geom.geometry.coordinates;
+//             // xrMap.set('test', 2);
+//             var testResult;
+//             findStreet(coordinates.toString(),function(result){
+//                 counter++;
+//                 // console.log(ticketMap);
+//                 // if(ticketMap.has(result)) {
+//                 //     var meterCount = ticketMap.get(result).count;
+//                 //     meterCount++;
+//                 //     ticketMap.get(result).count = meterCount;
+//                 //     // console.log(ticketMap.get(result).count);
+//                 //     // console.log(ticketMap.get(result));
+//                 // }
+//                 // console.log(counter);
+//                 // console.log("S*"+result);
+//                  //console.log(xrMap);
+//                 // if(!xrMap.has(result)) {
+//                 //     xrMap.set(result, 1);
+//                 // } else {
+//                 //     let numMeters = xrMap.get(result);
+//                 //     numMeters++;
+//                 //     xrMap.set(result, numMeters);
+//                 //     // console.log("I am running", xrMap.get(meterStreetBlock) + 1);
+//                 // }       
+//                 if(counter == 4000){
+//                     alldone(ticketMap);
+//                 }
+//             });         
+//         });
         
-        console.log(xrMap);
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
-    // function logMapElements(values) {
-    //     console.log(values);
-    // }
-    // ticketMap.forEach(logMapElements);
+//         // console.log(xrMap);
+//     })
+//     .catch(function (error) {
+//         console.log(error);
+//     });
+//     // function logMapElements(values) {
+//     //     console.log(values);
+//     // }
+//     // ticketMap.forEach(logMapElements);
     
-    console.log("please help");
-}
+//     // console.log("please help");
+// }
 
 
 exports.getTable = (req,res) => {
@@ -104,7 +113,7 @@ exports.getTable = (req,res) => {
 
     /*This is where we fetch the ticket information and start method chaining from the returned 
     promise object.*/
-    ax.get('https://opendata.vancouver.ca/api/v2/catalog/datasets/parking-tickets-2017-2019/exports/json?rows=2000&pretty=false&timezone=UTC')
+    ax.get('https://opendata.vancouver.ca/api/v2/catalog/datasets/parking-tickets-2017-2019/exports/json?rows=4000&pretty=false&timezone=UTC')
         .then(function (response) {
             //This is the "big" map that contains Street/Block : Year
             //Ex: HOWE ST/800 =>    2017 =>     03 =>       31 =>       2
@@ -152,42 +161,44 @@ exports.getTable = (req,res) => {
                     monthMap.set(ticketMonth, dayMap);
                     let yearMap = new Map();
                     yearMap.set(ticketYear, monthMap);
-                    ticketMap.set(streetBlock, yearMap);
+                    ticketMap.set(streetBlock, {yearMap, count: 0});
                     /*If a match for the streetBlock is found, then it asks: 
                     "does the map contain a match for this ticket record's year of 
                     infraction?"
                     If not, the conditional adds the record starting at the year to the ticketMap.
                     The year is the key for the rest of the record (month, day, ticket count)*/
                 } else {
-                    if (!ticketMap.get(streetBlock).has(ticketYear)) {
+                    // console.log(ticketMap.get(streetBlock).yearMap.has(ticketYear));
+                    if (!ticketMap.get(streetBlock).yearMap.has(ticketYear)) {
                         let dayMap = new Map();
                         dayMap.set(ticketDay, ticketObject.year.month.day.dateCount);
                         let monthMap = new Map();
                         monthMap.set(ticketMonth, dayMap);
-                        ticketMap.get(streetBlock).set(ticketYear, monthMap);
+                        // console.log(ticketMap.get(streetBlock));
+                        ticketMap.get(streetBlock).yearMap.set(ticketYear, monthMap);
                         /*If a match for the year is found, it asks whether a match for the
                         ticket record's month has been found. If not, it adds the ticket
                         record to the map starting at the month. The month is a key
                         for the rest of the record. */
                     } else {
-                        if (!ticketMap.get(streetBlock).get(ticketYear).has(ticketMonth)) {
+                        if (!ticketMap.get(streetBlock).yearMap.get(ticketYear).has(ticketMonth)) {
                             let dayMap = new Map();
                             dayMap.set(ticketDay, ticketObject.year.month.day.dateCount);
-                            ticketMap.get(streetBlock).get(ticketYear).set(ticketMonth, dayMap);
+                            ticketMap.get(streetBlock).yearMap.get(ticketYear).set(ticketMonth, dayMap);
                             /*If a match for the month is found, the conditional asks
                             whether a match for the day is found. If not, it adds
                             the ticket record starting at the day to the month map. The day 
                             is the key to the ticket count for that day.*/
                         } else {
-                            if (!ticketMap.get(streetBlock).get(ticketYear).get(ticketMonth).has(ticketDay)) {
-                                ticketMap.get(streetBlock).get(ticketYear).get(ticketMonth).set(ticketDay, ticketObject.year.month.day.dateCount);
+                            if (!ticketMap.get(streetBlock).yearMap.get(ticketYear).get(ticketMonth).has(ticketDay)) {
+                                ticketMap.get(streetBlock).yearMap.get(ticketYear).get(ticketMonth).set(ticketDay, ticketObject.year.month.day.dateCount);
                                 /*At this point, the ticket record matches another ticket record exactly,
                                 meaning that the streetBlock, year, month, and date are the same. So,
                                 we increment the ticketcount for this day in this street/block. */
                             } else {
-                                let ticketCount = ticketMap.get(streetBlock).get(ticketYear).get(ticketMonth).get(ticketDay);
+                                let ticketCount = ticketMap.get(streetBlock).yearMap.get(ticketYear).get(ticketMonth).get(ticketDay);
                                 ticketCount++;
-                                ticketMap.get(streetBlock).get(ticketYear).get(ticketMonth).set(ticketDay, ticketCount);
+                                ticketMap.get(streetBlock).yearMap.get(ticketYear).get(ticketMonth).set(ticketDay, ticketCount);
                             }
                         }
                     }
@@ -198,8 +209,9 @@ exports.getTable = (req,res) => {
             // function logMapElements(values) {
             //     console.log(values);
             // }
-            fetchMeters(ticketMap);
+            // fetchMeters(ticketMap);
             //ticketMap.forEach(logMapElements);
+            console.log(ticketMap);
             
         })
         .catch(function (error) {
